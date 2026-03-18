@@ -10,7 +10,8 @@ import { certificates, contact, educationData, navItems, profile, skills } from 
 
 function App() {
   return (
-    <div className="min-h-screen bg-neutral-950 text-neutral-100">
+    <div className="min-h-screen font-mono bg-background text-foreground">
+      <div className="pointer-events-none fixed inset-0 -z-10 bg-linear-to-b from-primary/5 via-transparent to-transparent" />
       <Header brand={profile.shortBrand} navItems={navItems} />
 
       <main>

@@ -1,5 +1,6 @@
-import { Menu, X } from 'lucide-react'
+import { Menu, Moon, Sun, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
+import { useTheme } from 'next-themes'
 import { cn } from '../../lib/utils'
 import { Button } from '../ui/button'
 
@@ -7,6 +8,7 @@ function Header({ brand, navItems }) {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [activePath, setActivePath] = useState('#home')
+  const { resolvedTheme, setTheme } = useTheme()
 
   const sectionHashes = useMemo(
     () => navItems.map((item) => item.href).filter((href) => href.startsWith('#')),
@@ -18,34 +20,58 @@ function Header({ brand, navItems }) {
     setActivePath(initialHash)
 
     const handleHashChange = () => setActivePath(window.location.hash || '#home')
-    const handleScroll = () => setIsScrolled(window.scrollY > 20)
-    const handleResize = () => {
-      if (window.innerWidth >= 768) {
-        setIsMobileMenuOpen(false)
-      }
-    }
-
     const sections = sectionHashes
       .map((hash) => document.getElementById(hash.replace('#', '')))
       .filter(Boolean)
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visibleEntries = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)
+    const updateActiveFromCenter = () => {
+      if (sections.length === 0) {
+        return
+      }
 
-        if (visibleEntries.length > 0) {
-          setActivePath(`#${visibleEntries[0].target.id}`)
+      const viewportCenter = window.innerHeight / 2
+      let closestSection = sections[0]
+      let closestDistance = Number.POSITIVE_INFINITY
+
+      sections.forEach((section) => {
+        const rect = section.getBoundingClientRect()
+        const sectionContainsCenter = rect.top <= viewportCenter && rect.bottom >= viewportCenter
+        const distanceToSection = sectionContainsCenter
+          ? 0
+          : Math.min(Math.abs(rect.top - viewportCenter), Math.abs(rect.bottom - viewportCenter))
+
+        if (distanceToSection < closestDistance) {
+          closestDistance = distanceToSection
+          closestSection = section
         }
-      },
+      })
+
+      const nextPath = `#${closestSection.id}`
+      setActivePath((currentPath) => (currentPath === nextPath ? currentPath : nextPath))
+    }
+
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20)
+      updateActiveFromCenter()
+    }
+
+    const handleResize = () => {
+      if (window.innerWidth >= 768) {
+        setIsMobileMenuOpen(false)
+      }
+      updateActiveFromCenter()
+    }
+
+    const observer = new IntersectionObserver(
+      () => updateActiveFromCenter(),
       {
-        rootMargin: '-30% 0px -55% 0px',
-        threshold: [0.2, 0.4, 0.6, 0.8]
+        rootMargin: '-45% 0px -45% 0px',
+        threshold: 0
       }
     )
 
     sections.forEach((section) => observer.observe(section))
+    updateActiveFromCenter()
 
     window.addEventListener('hashchange', handleHashChange)
     window.addEventListener('scroll', handleScroll)
@@ -65,14 +91,14 @@ function Header({ brand, navItems }) {
       className={cn(
         'sticky top-0 z-50 transition-all duration-300',
         isScrolled
-          ? 'border-b border-neutral-800 bg-neutral-950/80 backdrop-blur-lg shadow-lg shadow-black/20'
-          : 'border-b border-transparent bg-neutral-950/10'
+          ? 'border-b border-border bg-background/85 backdrop-blur-lg'
+          : 'border-b border-transparent bg-transparent'
       )}
     >
       <nav className="container-width flex h-20 items-center justify-between" aria-label="Main navigation">
         <a
           href="#home"
-          className="text-base font-bold tracking-[0.2em] uppercase bg-linear-to-r from-neutral-100 to-neutral-500 bg-clip-text text-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 rounded-sm"
+          className="text-base font-bold tracking-[0.2em] uppercase bg-linear-to-r from-foreground to-muted-foreground bg-clip-text text-transparent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm"
         >
           {brand}
         </a>
@@ -85,8 +111,8 @@ function Header({ brand, navItems }) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  'text-sm font-medium transition-all duration-200 px-4 py-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400',
-                  isActive ? 'bg-white/10 text-white' : 'text-neutral-400 hover:bg-white/5 hover:text-neutral-200'
+                  'text-sm font-medium transition-all duration-200 px-4 py-2 rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring',
+                  isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:bg-accent/70 hover:text-foreground'
                 )}
                 aria-current={isActive ? 'page' : undefined}
               >
@@ -95,13 +121,19 @@ function Header({ brand, navItems }) {
             )
           })}
 
-          <Button size="sm" className="ml-3 rounded-full px-5" asChild>
-            <a href="#contact">Get In Touch</a>
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full"
+            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+            aria-label="Toggle theme"
+          >
+            {resolvedTheme === 'dark' ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </Button>
         </div>
 
         <button
-          className="md:hidden p-2 text-neutral-300 hover:text-white transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 rounded-md"
+          className="md:hidden p-2 text-muted-foreground hover:text-foreground transition-transform active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-md"
           onClick={() => setIsMobileMenuOpen((open) => !open)}
           aria-expanded={isMobileMenuOpen}
           aria-label="Toggle navigation menu"
@@ -112,13 +144,20 @@ function Header({ brand, navItems }) {
 
       <div
         className={cn(
-          'md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-neutral-950/95 backdrop-blur-xl',
+          'md:hidden overflow-hidden transition-all duration-300 ease-in-out bg-background/95 backdrop-blur-xl',
           isMobileMenuOpen
-            ? 'max-h-[420px] opacity-100 border-t border-neutral-800/50'
+            ? 'max-h-105 opacity-100 border-t border-border'
             : 'max-h-0 opacity-0 border-t border-transparent'
         )}
       >
         <div className="flex flex-col px-6 py-6 space-y-1">
+          <Button
+            variant="outline"
+            className="mb-2 justify-start"
+            onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
+          >
+            {resolvedTheme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+          </Button>
           {navItems.map((item) => {
             const isActive = activePath === item.href
             return (
@@ -128,7 +167,7 @@ function Header({ brand, navItems }) {
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={cn(
                   'text-base font-medium px-4 py-3 rounded-lg transition-all duration-200',
-                  isActive ? 'bg-white/10 text-white' : 'text-neutral-400 hover:bg-white/5 hover:text-neutral-200'
+                  isActive ? 'bg-accent text-accent-foreground' : 'text-muted-foreground hover:bg-accent/70 hover:text-foreground'
                 )}
               >
                 {item.label}

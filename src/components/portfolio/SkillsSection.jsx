@@ -15,7 +15,7 @@ function SkillsSection({ skills }) {
                 <Badge
                   key={skill}
                   variant="secondary"
-                  className="px-3 py-1 text-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-600 hover:bg-neutral-700/70"
+                  className="px-3 py-1 text-sm transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent hover:text-accent-foreground"
                 >
                   {skill}
                 </Badge>

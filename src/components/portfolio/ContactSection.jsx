@@ -11,28 +11,28 @@ function ContactSection({ contact }) {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2 text-2xl">
-                <Sparkles className="h-5 w-5 text-neutral-400" />
+                <Sparkles className="h-5 w-5 text-muted-foreground" />
                 Let&apos;s build something meaningful
               </CardTitle>
               <CardDescription>Open to internships, collaborations, and impactful opportunities.</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid gap-6 md:grid-cols-2">
-                <div className="space-y-4 text-sm text-neutral-300">
+                <div className="space-y-4 text-sm text-muted-foreground">
                   <a
                     href={`mailto:${contact.email}`}
-                    className="group flex items-center gap-3 rounded-md border border-neutral-800 bg-neutral-900 px-3 py-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-700"
+                    className="group flex items-center gap-3 rounded-md border border-border bg-card/70 px-3 py-2 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent/50"
                   >
-                    <Mail className="h-4 w-4 text-neutral-400 transition-transform duration-200 group-hover:scale-110" />
+                    <Mail className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-hover:scale-110" />
                     {contact.email}
                   </a>
                   <a
                     href={contact.locationLink}
                     target="_blank"
                     rel="noreferrer"
-                    className="group flex items-center gap-3 rounded-md border border-neutral-800 bg-neutral-900 px-3 py-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-700"
+                    className="group flex items-center gap-3 rounded-md border border-border bg-card/70 px-3 py-2 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent/50"
                   >
-                    <MapPin className="h-4 w-4 text-neutral-400 transition-transform duration-200 group-hover:scale-110" />
+                    <MapPin className="h-4 w-4 text-muted-foreground transition-transform duration-200 group-hover:scale-110" />
                     {contact.location}
                   </a>
                 </div>
@@ -51,7 +51,7 @@ function ContactSection({ contact }) {
                     href={contact.linkedin}
                     target="_blank"
                     rel="noreferrer"
-                    className="ml-2 inline-flex h-10 w-10 items-center justify-center rounded-md border border-neutral-800 bg-neutral-900 p-2 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-700"
+                    className="ml-2 inline-flex h-10 w-10 items-center justify-center rounded-md border border-border bg-card/70 p-2 transition-all duration-200 hover:-translate-y-0.5 hover:bg-accent/50"
                     aria-label="LinkedIn profile"
                   >
                     <img

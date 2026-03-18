@@ -14,14 +14,16 @@ function CertificatesSection({ certificates }) {
             <Reveal key={cert.title} delay={index * 70}>
               <Card className="group h-full overflow-hidden">
                 {cert.image ? (
-                  <img
-                    src={cert.image}
-                    alt={cert.title}
-                    className="h-44 w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
-                    loading="lazy"
-                  />
+                  <div className="flex h-52 items-center justify-center border-b border-border bg-muted/30 p-2">
+                    <img
+                      src={cert.image}
+                      alt={cert.title}
+                      className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
                 ) : (
-                  <div className="flex h-44 items-center justify-center border-b border-neutral-800 bg-neutral-900 text-sm text-neutral-500">
+                  <div className="flex h-44 items-center justify-center border-b border-border bg-muted/40 text-sm text-muted-foreground">
                     Certificate Preview
                   </div>
                 )}

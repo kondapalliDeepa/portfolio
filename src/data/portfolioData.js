@@ -1,9 +1,12 @@
 import profileImage from '../assets/profile/deepa_profile.jpg'
-import linkedinLogo from '../assets/social/linkedin.png'
-import internshipCert from '../assets/certificates/internship_primary.png'
-import eduskillCert from '../assets/certificates/eduskill_primary.png'
+import linkedinLogo from '../assets/certificates/linkedin.png'
+import yugaYatraCert from '../assets/certificates/yuga_yatra.png'
+import eduskillCert from '../assets/certificates/eduskill.png'
 import edunetCert from '../assets/certificates/edunet.png'
 import fmmlCert from '../assets/certificates/fmml.png'
+import linkedInCert from '../assets/certificates/linkedin.png'
+import techSakshamCert from '../assets/certificates/tech_saksham.jpeg'
+import wadhwaniCert from '../assets/certificates/wadhwani.jpeg'
 
 export const profile = {
   name: 'Deepa Kondapalli',
@@ -52,34 +55,47 @@ export const educationData = [
 
 export const certificates = [
   {
-    title: 'Infosys - Artificial Intelligence',
-    subtitle: 'Certification of completion',
-    link: 'https://www.infosys.com'
+    title: 'FMML - Foundations of Modern Machine Learning',
+    subtitle: 'IIIT Hyderabad, Grade A',
+    image: fmmlCert,
+    link: fmmlCert
+  },
+  {
+    title: 'TechSaksham - IR4.0 Technologies',
+    subtitle: 'Microsoft, SAP & Edunet Foundation',
+    image: techSakshamCert,
+    link: techSakshamCert
+  },
+  {
+    title: 'Wadhwani Foundation - Ignite for Entrepreneurs',
+    subtitle: 'Certificate of content completion',
+    image: wadhwaniCert,
+    link: wadhwaniCert
   },
   {
     title: 'Yuga Yatra Retail Internship',
-    subtitle: 'Internship completion certificate',
-    image: internshipCert,
-    link: internshipCert
+    subtitle: 'Software Engineer Intern',
+    image: yugaYatraCert,
+    link: yugaYatraCert
   },
   {
-    title: 'Eduskills - Java Full Stack',
-    subtitle: 'Primary certificate',
+    title: 'EduSkills - Data Engineering Virtual Internship',
+    subtitle: 'AICTE National Internship Portal',
     image: eduskillCert,
     link: eduskillCert
   },
   {
-    title: 'Edunet',
-    subtitle: 'Program certificate',
+    title: 'Edunet Foundation - Certificate of Achievement',
+    subtitle: 'TechSaksham 2024-25',
     image: edunetCert,
     link: edunetCert
   },
   {
-    title: 'FMML',
-    subtitle: 'Performance certification',
-    image: fmmlCert,
-    link: fmmlCert
-  }
+    title: 'LinkedIn Learning - Programming Foundations',
+    subtitle: 'Fundamentals course completion',
+    image: linkedInCert,
+    link: linkedInCert
+  },
 ]
 
 export const skills = [
