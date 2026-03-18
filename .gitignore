@@ -1,1 +1,27 @@
-node_modules
+node_modules/
+
+# Build outputs
+dist/
+build/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# OS files
+.DS_Store
+
+# Coverage
+coverage/
+
+# Editor/IDE
+.idea/
+*.swp
+*.swo
